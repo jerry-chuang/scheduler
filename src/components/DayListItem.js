@@ -2,8 +2,7 @@ import React from "react";
 import "components/DayListItem.scss";
 import classNames from 'classnames/bind';
 
-export default function DayListItem(props) {
-  const {name, spots, selected, setDay} = props;
+export default function DayListItem({name, spots, selected, setDay}) {
   const dayClass = classNames('day-list__item',
     {'day-list__item--selected':selected,
      'day-list__item--full': spots===0
@@ -17,7 +16,6 @@ export default function DayListItem(props) {
     } else {
       return `${spots} spots remaining`
     }
-
   }
 
   return (
