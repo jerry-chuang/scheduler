@@ -7,16 +7,18 @@ import Show from "components/Appointment/Show"
 import useVisualMode from "hooks/useVisualMode";
 import Form from "components/Appointment/Form"
 import Status from "components/Appointment/Status"
+import Confirm from "components/Appointment/Confirm"
 
-export default function Appointment({id, time, interview, interviewers, bookInterview}) {
+
+export default function Appointment({id, time, interview, interviewers, bookInterview, cancelInterview}) {
 
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
   const CREATE = "CREATE";
   const SAVING = "SAVING";
   // const EDIT = "EDIT";
-  // const DELETING = "DELETING";
-  // const CONFIRM = "CONFIRM";
+  const DELETING = "DELETING";
+  const CONFIRM = "CONFIRM";
 
   const {mode, transition, back} = useVisualMode(interview? SHOW : EMPTY)
   const onAdd = () => {
@@ -34,12 +36,14 @@ export default function Appointment({id, time, interview, interviewers, bookInte
   const onCancel = () => {
     back();
   }
-  // const onConfirm = () => {
-  //   transition(DELETING);
-  // };
-  // const onDelete = () => {
-  //   transition(CONFIRM);
-  // };
+  const onConfirm = () => {
+    transition(DELETING);
+    cancelInterview(id)
+    .then(res =>{transition(EMPTY)})
+  };
+  const onDelete = () => {
+    transition(CONFIRM);
+  };
   // const onComplete = () => {
   //   transition(EMPTY);
   // };
@@ -55,6 +59,7 @@ export default function Appointment({id, time, interview, interviewers, bookInte
       <Show
         student={interview.student}
         interviewer={interview.interviewer}
+        onDelete={onDelete}
       />
     )} 
     {mode === CREATE && (
@@ -64,5 +69,12 @@ export default function Appointment({id, time, interview, interviewers, bookInte
         onCancel={onCancel}
       />)}
     {mode === SAVING && <Status message="saving"/>}   
+    {mode === CONFIRM && <Confirm 
+      message="Are you sure you would like to delete?" 
+      onConfirm={onConfirm} 
+      onCancel={onCancel}
+    />}
+    {mode === DELETING && <Status message="deleting"/>}   
+
   </article>;
 }

@@ -54,12 +54,40 @@ export default function Application(props) {
           reject()
         })
     });
- 
+  }
+
+  function cancelInterview(id) {
+    return new Promise((resolve, reject) => {
+      const appointment = {
+        ...state.appointments[id],
+        interview: null
+      };
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment
+      };
+      
+      axios.delete("/api/appointments/"+id)
+        .then(response=> {
+          setState({...state, appointments});
+          resolve()
+        })
+        .catch(res=>{
+          reject()
+        })
+    });
   }
   
   const schedule = appointments.map(item => {
     const interview = getInterview(state, item.interview)
-    return <Appointment key={item.id} {...item} interviewers={interviewers} interview={interview} bookInterview={bookInterview}/>
+    return <Appointment 
+        key={item.id} 
+        {...item} 
+        interviewers={interviewers} 
+        interview={interview} 
+        bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
+      />
   })
 
   return (
