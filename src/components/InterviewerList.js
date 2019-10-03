@@ -5,13 +5,14 @@ import "components/InterviewerList.scss";
 export default function InterviewerList({interviewers, value, onChange}) {
   const list = interviewers.map(
     (item)=> 
-    <InterviewerListItem 
+      <InterviewerListItem 
       key={item.id} 
       name={item.name} 
       avatar={item.avatar} 
-      selected={item.id === value} 
+      selected={item.id === Number(value)} 
       setInterviewer={()=>onChange(item.id)} 
-    />)
+      />
+  )
 
   return (
     <section className="interviewers">
