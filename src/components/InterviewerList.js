@@ -2,7 +2,7 @@ import React from "react";
 import InterviewerListItem from 'components/InterviewerListItem'
 import "components/InterviewerList.scss";
 
-export default function DayList({interviewers, value, onChange}) {
+export default function InterviewerList({interviewers, value, onChange}) {
   const list = interviewers.map(
     (item)=> 
     <InterviewerListItem 
