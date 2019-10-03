@@ -19,4 +19,3 @@ export default function Appointment({time, interview}) {
       </>
    </article>;
 }
-
