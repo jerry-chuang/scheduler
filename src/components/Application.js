@@ -1,68 +1,42 @@
 import React, {useState, useEffect} from "react";
 import DayList from 'components/DayList'
 import Appointment from "components/Appointment"
+import { getAppointmentsForDay, getInterview } from "helpers/selectors";
+
 import axios from 'axios';
 
 import "components/Application.scss";
 
-const appointments = [
-  {
-    id: 1,
-    time: "12pm",
-  },
-  {
-    id: 2,
-    time: "1pm",
-    interview: {
-      student: "Lydia Miller-Jones",
-      interviewer: {
-        id: 1,
-        name: "Sylvia Palmer",
-        avatar: "https://i.imgur.com/LpaY82x.png",
-      }
-    }
-  },
-  {
-    id: 3,
-    time: "2pm",
-    interview: {
-      student: "Archie Cohen",
-      interviewer: { 
-        id: 2, 
-        name: "Tori Malcolm", 
-        avatar: "https://i.imgur.com/Nmx0Qxo.png"
-      }
-    }
-  },
-  {
-    id: 4,
-    time: "3pm",
-  },
-  {
-    id: 5,
-    time: "4pm",
-    interview: {
-      student: "Maria Boucher",
-      interviewer: { 
-        id: 4, 
-        name: "Cohana Roy", 
-        avatar: "https://i.imgur.com/FK8V841.jpg" 
-      }
-    }
-  }
-];
-
 export default function Application(props) {
-  const [day, setDay] = useState('Monday');
-  const [days, setDays] = useState([]);
-  // const [appointments, setAppointments] = useState([]);
+  const [state, setState] = useState({
+    day: "Monday",
+    days: [],
+    appointments: {},
+    interviwers: {}
+  });
+  
+  const setDay = day => setState({...state, day})
 
   useEffect(()=>{
-    axios.get('/api/days')
-      .then(response =>{
-        setDays(response.data)
-      })
+    Promise.all([
+      axios.get("api/days"),
+      axios.get("api/appointments"),
+      axios.get("api/interviewers")
+    ]).then((all)=>{
+      setState(prev => ({
+        days: all[0].data, 
+        appointments: all[1].data,
+        interviewers: all[2].data
+      }))
+    })
   }, [])
+
+  const appointments = getAppointmentsForDay(state, state.day)
+  
+const schedule = appointments.map(item => {
+  const interview = getInterview(state, item.interview)
+  return <Appointment key={item.id} {...item} interview={interview}/>
+})
 
   return (
     <main className="layout">
@@ -75,8 +49,8 @@ export default function Application(props) {
         <hr className="sidebar__separator sidebar--centered" />
         <nav className="sidebar__menu">
           <DayList
-            days={days}
-            day={day}
+            days={state.days}
+            day={state.day}
             setDay={setDay}
           />
         </nav>
@@ -87,7 +61,7 @@ export default function Application(props) {
         />
       </section>
       <section className="schedule">
-        {appointments.map(item => <Appointment key={item.id} {...item}/>)}
+        {schedule}
         <Appointment key="last" time="5pm" />
       </section>
     </main>
