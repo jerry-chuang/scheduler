@@ -66,7 +66,15 @@ export default function useApplicationData(initial){
       socket.send('ping');
     };
     socket.onmessage = function (event) {
-      console.log("Message received:", JSON.parse(event.data))
+      const message = JSON.parse(event.data)
+      console.log(message)
+      if (message.type){
+        dispatch({
+          type: message.type,
+          id: message.id,
+          interview: message.interview
+        })
+      }
     };
     Promise.all([
       axios.get("api/days"),

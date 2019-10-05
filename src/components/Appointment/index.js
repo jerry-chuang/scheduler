@@ -23,7 +23,7 @@ export default function Appointment({id, time, interview, interviewers, bookInte
   const ERROR_SAVE = "ERROR_SAVE";
   const ERROR_DELETE = "ERROR_DELETE";
 
-  const {mode, transition, back} = useVisualMode(interview? SHOW : EMPTY)
+  const {mode, transition, back} = useVisualMode(interview ? SHOW : EMPTY)
 
   const onAdd = () => {
     transition(CREATE);
@@ -56,7 +56,6 @@ export default function Appointment({id, time, interview, interviewers, bookInte
   const onEdit = () => {
     transition(EDIT);
   };
-
 
   return <article className="appointment">
     <Header time={time}/>
