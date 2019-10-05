@@ -62,18 +62,16 @@ export default function useApplicationData(initial){
   
   useEffect(()=>{
     const socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
-    socket.onopen = function (event) {
-      socket.send('ping');
-    };
+
     socket.onmessage = function (event) {
       const message = JSON.parse(event.data)
-      console.log(message)
       if (message.type){
         dispatch({
           type: message.type,
           id: message.id,
           interview: message.interview
-        })
+        });
+        updateDays();
       }
     };
     Promise.all([
@@ -105,14 +103,6 @@ export default function useApplicationData(initial){
 
   function bookInterview(id, interview) {
     return new Promise((resolve, reject) => {
-      // const appointment = {
-      //   ...state.appointments[id],
-      //   interview: { ...interview }
-      // };
-      // const appointments = {
-      //   ...state.appointments,
-      //   [id]: appointment
-      // };
       
       axios.put("/api/appointments/"+id, {interview})
         .then(response=> {
@@ -131,16 +121,7 @@ export default function useApplicationData(initial){
   }
 
   function cancelInterview(id) {
-    return new Promise((resolve, reject) => {
-      // const appointment = {
-      //   ...state.appointments[id],
-      //   interview: null
-      // };
-      // const appointments = {
-      //   ...state.appointments,
-      //   [id]: appointment
-      // };
-      
+    return new Promise((resolve, reject) => {   
       axios.delete("/api/appointments/"+id)
         .then(response=> {
           dispatch({

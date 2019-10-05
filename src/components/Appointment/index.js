@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 
 import "components/Appointment/styles.scss";
 import Header from "components/Appointment/Header"
@@ -24,6 +24,15 @@ export default function Appointment({id, time, interview, interviewers, bookInte
   const ERROR_DELETE = "ERROR_DELETE";
 
   const {mode, transition, back} = useVisualMode(interview ? SHOW : EMPTY)
+
+  useEffect(()=>{
+    if (mode === EMPTY && interview){
+      transition(SHOW)
+    }
+    if (mode === SHOW && !interview){
+      transition(EMPTY)
+    }
+  },[interview, mode, transition])
 
   const onAdd = () => {
     transition(CREATE);
