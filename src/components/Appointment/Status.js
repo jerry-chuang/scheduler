@@ -2,7 +2,7 @@ import React from "react";
 import "components/Appointment/styles.scss";
 
 export default function Status(props) {
-  const {message} = props;
+  const { message } = props;
   return (
     <main className="appointment__card appointment__card--status">
       <img
@@ -12,5 +12,5 @@ export default function Status(props) {
       />
       <h1 className="text--semi-bold">{message}</h1>
     </main>
-  )
+  );
 }
