@@ -24,8 +24,8 @@ npm run storybook
 
 ## Final Product
 #### Create, Edit, Delete:
-!["CED"](https://github.com/JerChuang/StartDuck/blob/master/docs/loginpage.png?raw=true)
+!["CED"](https://github.com/JerChuang/scheduler/blob/master/public/images/CED.gif)
 
 #### Real time update across different users:
-!["Real time update"](https://github.com/JerChuang/StartDuck/blob/master/docs/selectCategory.gif?raw=true)
+!["Real time update"](https://github.com/JerChuang/scheduler/blob/master/public/images/realtime.gif)
 
