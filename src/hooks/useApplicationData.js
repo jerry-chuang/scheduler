@@ -88,7 +88,7 @@ export default function useApplicationData(initial) {
   }, []);
 
   const updateDays = () => {
-    axios.get("api/days").then(res => {
+    axios.get("/api/days").then(res => {
       dispatch({
         type: UPDATE_DAYS,
         days: res.data
@@ -110,6 +110,7 @@ export default function useApplicationData(initial) {
           resolve();
         })
         .catch(res => {
+          console.log(res)
           reject();
         });
     });
