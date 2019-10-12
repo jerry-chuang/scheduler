@@ -88,5 +88,13 @@ export default {
         status: 204,
         statusText: "No Content",
       });
-  })
+  }),
+  delete: jest.fn(()=> {
+    fixtures.days[0].spots = 2;
+    fixtures.appointments["2"].interview = null;
+    return Promise.resolve({
+      status: 204,
+      statusText: "No Content",
+    });
+})
 };
