@@ -72,10 +72,11 @@ export default function useApplicationData(initial) {
         updateDays();
       }
     };
+    
     Promise.all([
-      axios.get("api/days"),
-      axios.get("api/appointments"),
-      axios.get("api/interviewers")
+      axios.get("/api/days"),
+      axios.get("/api/appointments"),
+      axios.get("/api/interviewers")
     ]).then(all => {
       dispatch({
         type: SET_APPLICATION_DATA,
