@@ -1,10 +1,6 @@
 import React, { useReducer, useEffect } from "react";
 import axios from "axios";
-
-const SET_DAY = "SET_DAY";
-const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
-const SET_INTERVIEW = "SET_INTERVIEW";
-const UPDATE_DAYS = "UPDATE_DAYS";
+import reducer, { SET_DAY, SET_APPLICATION_DATA, SET_INTERVIEW, UPDATE_DAYS} from "reducers/application.js";
 
 const initialState = {
   day: "Monday",
@@ -12,46 +8,6 @@ const initialState = {
   appointments: {},
   interviwers: {}
 };
-
-function reducer(state, action) {
-  switch (action.type) {
-    case SET_DAY:
-      return {
-        ...state,
-        day: action.day
-      };
-    case SET_APPLICATION_DATA:
-      return {
-        ...state,
-        days: action.days,
-        appointments: action.appointments,
-        interviewers: action.interviewers
-      };
-    case SET_INTERVIEW:
-      const appointment = {
-        ...state.appointments[action.id],
-        interview: { ...action.interview }
-      };
-      const appointments = {
-        ...state.appointments,
-        [action.id]: appointment
-      };
-      return {
-        ...state,
-        appointments: appointments
-      };
-    case UPDATE_DAYS:
-      return {
-        ...state,
-        days: action.days
-      };
-
-    default:
-      throw new Error(
-        `Tried to reduce with unsupported action type: ${action.type}`
-      );
-  }
-}
 
 export default function useApplicationData(initial) {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -72,7 +28,7 @@ export default function useApplicationData(initial) {
         updateDays();
       }
     };
-    
+
     Promise.all([
       axios.get("/api/days"),
       axios.get("/api/appointments"),
