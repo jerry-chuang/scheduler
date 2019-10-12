@@ -110,7 +110,6 @@ export default function useApplicationData(initial) {
           resolve();
         })
         .catch(res => {
-          console.log(res)
           reject();
         });
     });
