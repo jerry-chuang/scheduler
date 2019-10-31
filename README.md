@@ -28,11 +28,11 @@ npm run storybook
 
 ## Final Product
 You can see a deployed version of this app at: https://affectionate-raman-73b0de.netlify.com
+*Please allow 15 seconds for the demo page to load as the back-end of this demo is served on a free plan with Heroku.
 
-###Screenshots:
+### Screenshots:
 #### Create, Edit, Delete:
 !["CED"](https://github.com/JerChuang/scheduler/blob/master/public/images/CED.gif)
 
 #### Real time update across different users:
 !["Real time update"](https://github.com/JerChuang/scheduler/blob/master/public/images/realtime.gif)
-
